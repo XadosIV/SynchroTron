@@ -60,7 +60,7 @@ def display(data):
 	shell(cmd)
 
 def spinner(choices, title):
-	cmd = 'termux-dialog spinner -v "' + choices.join(',') + '" -t "' + title + '"'
+	cmd = 'termux-dialog spinner -v "' + ','.join(choices) + '" -t "' + title + '"'
 
 	res = json.loads(shell(cmd))
 

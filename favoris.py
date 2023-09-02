@@ -5,6 +5,6 @@ arrets = api.getAllFavorites()
 
 if (len(arrets) != 0):
 
-	arret = choix_arret(arrets, "Arrets Favoris")
-	data = api.horaires(arret)
+	arret = tapi.choix_arret(arrets, "Arrets Favoris")
+	data = api.horaires(arret["code"])
 	tapi.display(data)

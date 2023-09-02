@@ -27,7 +27,7 @@ def horairesRapide(endpoint, direction):
 	data = []
 
 	if (direction != "-1"):
-		endpoint += direction
+		endpoint += str(direction)
 		endpoints = fix_endpoint([endpoint])
 
 		endpoint = endpoints[0]
@@ -86,9 +86,9 @@ def horaires(endpoint):
 		options = json.loads(f.read())
 
 	if (options["fast-mode"]):
-		horairesRapide(endpoint, options["direction"])
+		return horairesRapide(endpoint, options["direction"])
 	else:
-		horairesComplete(endpoint)
+		return horairesComplete(endpoint)
 
 def readLinesJson():
 	with open("lines.json", "r") as f:

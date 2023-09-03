@@ -1,0 +1,1 @@
+python ~/SynchroTron/favoris.py

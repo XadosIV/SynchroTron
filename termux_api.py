@@ -18,7 +18,7 @@ def choix_arret(arrets, title):
 
 	res = json.loads(shell(cmd))
 
-	if res["code"] == -2:
+	if res["code"] == -2 or res["text"]=="":
 		return "CLOSED"
 	else:
 		for i in arrets:
@@ -31,7 +31,7 @@ def choix_lignes(lignes, title):
 	cmd = 'termux-dialog radio -v "'
 	valeurs = ""
 	for i in lignes:
-		valeurs+="Ligne "+i["name"]+","
+		valeurs+="Ligne "+i+","
 
 	valeurs = valeurs[:-1] + '" '
 
@@ -40,11 +40,11 @@ def choix_lignes(lignes, title):
 
 	res = json.loads(shell(cmd))
 
-	if res["code"] == -2:
+	if res["code"] == -2 or res["text"]=="":
 		return "CLOSED"
 	else:
 		for i in lignes:
-			if i["name"] == res["text"]:
+			if "Ligne "+i == res["text"]:
 				return i
 
 		return "ERROR"
@@ -64,7 +64,7 @@ def spinner(choices, title):
 
 	res = json.loads(shell(cmd))
 
-	if res["code"] == -2:
+	if res["code"] == -2 or res["text"]=="":
 		return "CLOSED"
 	else:
 		return res["text"]

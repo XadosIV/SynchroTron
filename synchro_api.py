@@ -9,19 +9,23 @@ def get(endpoint):
 	res = req.get(url+endpoint)
 	return split(decode(res))
 
+
 def decode(res):
 	return res.content.decode(formatage)
+
 
 def split(html):
 	return html.split('<div class="nq-c-Content-directions">')[1].split("</section>")[0]
 
+
 def raw_html_to_data(raw):
 	return {
-		"line":raw.split("_")[0][-1],
-		"remaining":raw.split('dans ')[1].split("<")[0],
-		"time":raw.split('detail-time">')[1].split("<")[0],
-		"direction":raw.split("<span>")[1].split("</span>")[0]
+		"line": raw.split("_")[0][-1],
+		"remaining": raw.split('dans ')[1].split("<")[0],
+		"time": raw.split('detail-time">')[1].split("<")[0],
+		"direction": raw.split("<span>")[1].split("</span>")[0]
 	}
+
 
 def horairesRapide(endpoint, direction):
 	data = []
@@ -37,24 +41,26 @@ def horairesRapide(endpoint, direction):
 	if (len(html.split("Aucun départ proche")) > 1):
 		return "ERROR"
 
-
 	dirs = html.split('<div class="nq-c-Direction-content">')
-	
-	for i in range(1,len(dirs)):
+
+	for i in range(1, len(dirs)):
 		data.append(raw_html_to_data(dirs[i]))
 
 	return data
 
+
 def horairesComplete(endpoint):
-	endpoints = fix_endpoint([endpoint+"1", endpoint+"2"])
+    endpoints = fix_endpoint([endpoint+"1", endpoint+"2"])
 
-	data = []
-	for endpoint in endpoints:
-		data += horairesRapide(endpoint, "-1")
+    data = []
+    for endpoint in endpoints:
+        data += horairesRapide(endpoint, "-1")
 
-	return data
+    return data
 
-def fix_endpoint(endpoints): #Prend en compte toutes les bizarreries de synchrobus pour rendre les bons endpoint
+
+# Prend en compte toutes les bizarreries de synchrobus pour rendre les bons endpoint
+def fix_endpoint(endpoints):
 	res = []
 	for endpoint in endpoints:
 		if endpoint == "UJACO2":
@@ -90,14 +96,16 @@ def horaires(endpoint):
 	else:
 		return horairesComplete(endpoint)
 
+
 def readLinesJson():
 	with open("lines.json", "r") as f:
 		lines = json.loads(f.read())
 	return lines
 
+
 def getAllArrets(line=""):
 	arrets = []
-	
+
 	lines = readLinesJson()
 
 	for line_data in lines:
@@ -109,17 +117,19 @@ def getAllArrets(line=""):
 
 	return arrets
 
+
 def getAllFavorites():
-	arrets = []
-	with open("favorites.json", "r") as f:
-		fav = json.loads(f.read())
+    arrets = []
+    with open("favorites.json", "r") as f:
+        fav = json.loads(f.read())
 
-	allArrets = getAllArrets()
-	for arret in allArrets:
-		if arret["code"] in fav:
-			arrets.append(arret)
+    allArrets = getAllArrets()
+    for arret in allArrets:
+        if arret["code"] in fav:
+            arrets.append(arret)
+            fav.remove(arret["code"])
 
-	return arrets
+    return arrets
 
 def getAllNotFavorites():
 	arrets = []

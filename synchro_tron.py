@@ -2,8 +2,7 @@ import termux_api as tapi
 import synchro_api as api
 
 line = tapi.choix_lignes(api.getLines(), "Choix de la ligne")
-codeLine = line.split(" ")[1]
-arrets = api.getAllArrets(codeLine)
+arrets = api.getAllArrets(line)
 
 if (len(arrets) != 0):
 

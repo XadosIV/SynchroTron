@@ -3,7 +3,7 @@ import termux_api as tapi
 import sys
 
 if len(sys.argv) == 1:
-	exit()
+    exit()
 else:
-	data = api.horaires(sys.argv[1])
-	tapi.display(data)
+    data = api.horaires(sys.argv[1])
+    tapi.display(data)

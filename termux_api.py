@@ -2,93 +2,93 @@ import os
 import json
 
 def shell(cmd):
-	#Appel une commande shell et renvoie son résultat
-	return os.popen(cmd).read()
+    #Appel une commande shell et renvoie son résultat
+    return os.popen(cmd).read()
 
 def radio(choices, title):
-	cmd = 'termux-dialog radio -v "' + ",".join(choices) + '"'
-	res = json.loads(shell(cmd))
+    cmd = 'termux-dialog radio -v "' + ",".join(choices) + '"'
+    res = json.loads(shell(cmd))
 
-	if res["code"] == -2 or res["text"]=="":
-		return "CLOSED"
-	else:
-		return res
+    if res["code"] == -2 or res["text"]=="":
+        return "CLOSED"
+    else:
+        return res
 
 def input_text(hint="", title=""):
-	cmd = 'termux-dialog text'
-	if hint != "":
-		cmd += '"' + hint + '" '
-	if title != "":
-		cmd += '"' + title + '"'
+    cmd = 'termux-dialog text'
+    if hint != "":
+        cmd += '"' + hint + '" '
+    if title != "":
+        cmd += '"' + title + '"'
 
-	res = json.loads(shell(cmd))
+    res = json.loads(shell(cmd))
 
-	if res["code"] == -2 or res["text"]=="":
-		return "CLOSED"
-	else:
-		return res["text"]
+    if res["code"] == -2 or res["text"]=="":
+        return "CLOSED"
+    else:
+        return res["text"]
 
 
 def choix_arret(arrets, title):
-	cmd = 'termux-dialog radio -v "'
-	valeurs = ""
-	for i in arrets:
-		valeurs+=i["name"]+","
+    cmd = 'termux-dialog radio -v "'
+    valeurs = ""
+    for i in arrets:
+        valeurs+=i["name"]+","
 
-	valeurs = valeurs[:-1] + '" '
+    valeurs = valeurs[:-1] + '" '
 
-	cmd += valeurs + '-t "' + title + '"'
+    cmd += valeurs + '-t "' + title + '"'
 
 
-	res = json.loads(shell(cmd))
+    res = json.loads(shell(cmd))
 
-	if res["code"] == -2 or res["text"]=="":
-		return "CLOSED"
-	else:
-		for i in arrets:
-			if i["name"] == res["text"]:
-				return i
+    if res["code"] == -2 or res["text"]=="":
+        return "CLOSED"
+    else:
+        for i in arrets:
+            if i["name"] == res["text"]:
+                return i
 
-		return "ERROR"
+        return "ERROR"
 
 def choix_lignes(lignes, title):
-	cmd = 'termux-dialog radio -v "'
-	valeurs = ""
-	for i in lignes:
-		valeurs+="Ligne "+i+","
+    cmd = 'termux-dialog radio -v "'
+    valeurs = ""
+    for i in lignes:
+        valeurs+="Ligne "+i+","
 
-	valeurs = valeurs[:-1] + '" '
+    valeurs = valeurs[:-1] + '" '
 
-	cmd += valeurs + '-t "' + title + '"'
+    cmd += valeurs + '-t "' + title + '"'
 
 
-	res = json.loads(shell(cmd))
+    res = json.loads(shell(cmd))
 
-	if res["code"] == -2 or res["text"]=="":
-		return "CLOSED"
-	else:
-		for i in lignes:
-			if "Ligne "+i == res["text"]:
-				return i
+    if res["code"] == -2 or res["text"]=="":
+        return "CLOSED"
+    else:
+        for i in lignes:
+            if "Ligne "+i == res["text"]:
+                return i
 
-		return "ERROR"
+        return "ERROR"
 
 def display(data):
-	cmd = 'termux-dialog checkbox -v "'
-	valeurs = ""
-	for i in data:
-		#data = {line, remaining, time, direction}
-		valeurs+=f"[Ligne {i['line']}] Vers {i['direction']} à {i['time']} (Dans {i['remaining']})" + ","
-	cmd += valeurs + '" -t "Résultats"'
+    cmd = 'termux-dialog checkbox -v "'
+    valeurs = ""
+    for i in data:
+        #data = {line, remaining, time, direction}
+        valeurs+=f"[Ligne {i['line']}] Vers {i['direction']} à {i['time']} (Dans {i['remaining']})" + ","
+    cmd += valeurs + '" -t "Résultats"'
 
-	shell(cmd)
+    shell(cmd)
 
 def spinner(choices, title):
-	cmd = 'termux-dialog spinner -v "' + ','.join(choices) + '" -t "' + title + '"'
+    cmd = 'termux-dialog spinner -v "' + ','.join(choices) + '" -t "' + title + '"'
 
-	res = json.loads(shell(cmd))
+    res = json.loads(shell(cmd))
 
-	if res["code"] == -2 or res["text"]=="":
-		return "CLOSED"
-	else:
-		return res["text"]
+    if res["code"] == -2 or res["text"]=="":
+        return "CLOSED"
+    else:
+        return res["text"]

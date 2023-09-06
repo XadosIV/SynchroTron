@@ -1,7 +1,7 @@
 [
 	{
 		"code":"A",
-		"direction":"Universite Jacob/Technolac-Plage",
+		"direction":["Universite Jacob", "Plage"],
 		"arrets":[
 			{"code":"UJACO", "name":"Universite Jacob"},
 			{"code":"BIOLL", "name":"Biollay"},
@@ -36,7 +36,7 @@
 	},
 	{
 		"code":"B",
-		"direction":"Maison Brulee/Roc Noir",
+		"direction":["Maison Brulee","Roc Noir"],
 		"arrets":[
 			{"code":"ROCNO", "name":"Roc Noir"},
 			{"code":"13BCA", "name":"13e BCA"},
@@ -68,12 +68,12 @@
 			{"code":"GENDA", "name":"Gendarmerie"},
 			{"code":"BOUCH", "name":"Bouchets"},
 			{"code":"MORAZ", "name":"Morraz"},
-			{"code":"PRSON", "name":"Rops"} 
+			{"code":"PRSON", "name":"Maison Brulee"} 
 		]
 	},
 	{
 		"code":"C",
-		"direction":"De Gaulle/Challes Centre",
+		"direction":["De Gaulle","Challes Centre"],
 		"arrets":[
 			{"code":"CCHAL", "name":"Challes Centre"},
 			{"code":"EGCHA", "name":"Eglise Challes"},

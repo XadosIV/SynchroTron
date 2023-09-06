@@ -5,6 +5,30 @@ def shell(cmd):
 	#Appel une commande shell et renvoie son résultat
 	return os.popen(cmd).read()
 
+def radio(choices, title):
+	cmd = 'termux-dialog radio -v "' + ",".join(choices) + '"'
+	res = json.loads(shell(cmd))
+
+	if res["code"] == -2 or res["text"]=="":
+		return "CLOSED"
+	else:
+		return res
+
+def input_text(hint="", title=""):
+	cmd = 'termux-dialog text'
+	if hint != "":
+		cmd += '"' + hint + '" '
+	if title != "":
+		cmd += '"' + title + '"'
+
+	res = json.loads(shell(cmd))
+
+	if res["code"] == -2 or res["text"]=="":
+		return "CLOSED"
+	else:
+		return res["text"]
+
+
 def choix_arret(arrets, title):
 	cmd = 'termux-dialog radio -v "'
 	valeurs = ""

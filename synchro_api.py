@@ -106,6 +106,24 @@ def readLinesJson():
 		lines = json.loads(f.read())
 	return lines
 
+def getDirection(arret):
+	code = arret["code"]
+	with open("lines.json", "r") as f:
+		lines = json.Loads(f.read()) 
+	directions = []
+	for l in lines:
+		for a in l["arrets"]:
+			if code == a["code"]:
+				if len(fix_endpoint([a["code"]]) != 2): #Cas des terminus
+					if a["name"] == l["direction"][0]:
+						directions.append(l["direction"][0])
+					else:
+						directions.append(l["direction"][1])
+				else:
+					directions += l["direction"]
+
+	return directions
+
 
 def getAllArrets(line=""):
 	arrets = []

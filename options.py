@@ -31,8 +31,6 @@ def add_favorite():
 	save_fav(fav)
 	return True
 
-
-
 def del_favorite():
 	arrets = api.getAllFavorites()
 	arret = tapi.choix_arret(arrets, "Arrêt à retirer des favoris")
@@ -43,6 +41,45 @@ def del_favorite():
 	
 	save_fav(fav)
 	return True
+
+def add_fast():
+	fav = api.getAllFavorites()
+	if (len(arrets) != 0):
+    	arret = tapi.choix_arret(fav, "Créer un raccourci pour quel arrêt")
+		if arret == "CLOSED":
+			return
+	directions = api.getDirection(arret)
+	direction = tapi.radio(directions, "Quel direction ?")
+	if direction == "CLOSED":
+		return
+	else:
+		direction = direction["index"] + 1
+
+	text = tapi.input_text("Entrer un nom", "Nom d'arrêt")
+	if text == "CLOSED":
+		return
+
+	code = arret["code"] + direction
+	
+	infile = "python " + os.path.dirname(sys.argv[0]) + " " + code
+	with open("~/.shortcuts/tasks/"+text.strip()+".sh", "w") as f:
+		f.write(infile)
+
+
+def del_fast():
+	files = os.listdir("~/.shortcuts/tasks/")
+	files.remove("Favoris.sh")
+	files.remove("Options.sh")
+	files.remove("Lines.sh")
+	if len(files) == 0:
+		return
+	for f in len(files):
+		files[f] = files[f].split(".")[0]
+
+	name = tapi.radio(files, "Quel arret supprimer ?")
+	name += ".sh"
+
+	os.remove("~/.shortcuts/tasks/"+name)
 
 
 def toggle_mode():
@@ -78,6 +115,10 @@ def spinner_options():
 	else:
 		choices.append("Definir direction: Technolac/Roc Noir/Challes Centre")
 
+	choices.append("Creer un arret rapide")
+	if len(os.listdir("~/.shortcuts/tasks/")) > 3:
+		choices.append("Supprimer un arret rapide")
+
 	choice = tapi.spinner(choices, "Options")
 
 	if (choice == "CLOSED"):
@@ -91,6 +132,10 @@ def spinner_options():
 			toggle_mode()
 		elif choice.startswith("Definir"):
 			toggle_direction()
+		elif choice == "Creer un arret rapide":
+			add_fast()
+		elif choice == "Supprimer un arret rapide":
+			del_fast()
 		else:
 			return "ERROR"
 
